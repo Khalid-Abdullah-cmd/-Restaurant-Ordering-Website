@@ -156,7 +156,7 @@ restaurant-django-project/
 │   ├── urls.py
 │   └── ...
 │
-├── <app_name>/
+├── ordering/
 │   ├── migrations/
 │   ├── templates/
 │   ├── static/
@@ -172,11 +172,10 @@ restaurant-django-project/
 ├── db.sqlite3
 ├── requirements.txt
 └── README.md
-```
 
-> Replace `<app_name>` with the actual Django application name used in the project.
 
 ---
+
 
 # 🚀 Installation & Setup
 
