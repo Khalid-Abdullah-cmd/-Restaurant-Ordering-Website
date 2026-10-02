@@ -52,7 +52,7 @@ Pip (Python package manager)
 
 1. Clone the repository
 
-git clone https://github.com/yourusername/restaurant-django-project.git
+git clone [https://github.com/yourusername/restaurant-django-project.git](https://github.com/Khalid-Abdullah-cmd/-Restaurant-Ordering-Website)
 cd restaurant-django-project
 
 
