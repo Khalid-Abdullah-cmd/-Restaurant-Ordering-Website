@@ -18,7 +18,10 @@ def menu_view(request):
     # Extract search parameters from the request to handle search bar queries
     # Extract category parameters from the request to filter the meals by category
     # Pass the dynamically filtered queryset of meals to the menu.html template
+        # Pass the dynamically filtered queryset of meals to the menu.html template
+
     pass
+
 
 
 def detail_view(request, item_id):
