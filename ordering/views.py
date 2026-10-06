@@ -9,7 +9,7 @@ def home_view(request):
     # Retrieve the available food categories to populate the category selection area
     # Pass the popular meals and category data to the home.html template for rendering
     # Pass the popular meals and category data to the home.html template for rendering
-    # Pass the popular meals and category data to the home.html template for rendering
+    #jlghjgjk Pass the popular meals and category data to the home.html template for rendering
 
     pass
 
