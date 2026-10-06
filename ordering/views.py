@@ -8,9 +8,6 @@ def home_view(request):
     # Retrieve a subset of MenuItem objects from the database to feature as "popular meals"
     # Retrieve the available food categories to populate the category selection area
     # Pass the popular meals and category data to the home.html template for rendering
-    # Pass the popular meals and category data to the home.html template for rendering
-    #jlghjgjk Pass the popular meals and category data to the home.html template for rendering
-
     pass
 
 
@@ -21,10 +18,7 @@ def menu_view(request):
     # Extract search parameters from the request to handle search bar queries
     # Extract category parameters from the request to filter the meals by category
     # Pass the dynamically filtered queryset of meals to the menu.html template
-        # Pass the dynamically filtered queryset of meals to the menu.html template
-
     pass
-
 
 
 def detail_view(request, item_id):
