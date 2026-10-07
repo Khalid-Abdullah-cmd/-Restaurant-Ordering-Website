@@ -1,7 +1,8 @@
 import json
 from decimal import Decimal
 from django.db import transaction
-from django.shortcuts import redirect, render
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
 from .forms import CheckoutForm
 from .models import MenuItem, Order, OrderItem
 
@@ -45,27 +46,51 @@ def _build_order_lines(cart):
 
 
 def home_view(request):
-    # Retrieve a subset of MenuItem objects from the database to feature as "popular meals"
-    # Retrieve the available food categories to populate the category selection area
-    # Pass the popular meals and category data to the home.html template for rendering
-    pass
+    """Show the landing page with highly rated meals and menu categories."""
+    popular_meals = MenuItem.objects.order_by("-rating", "name")[:6]
+    categories = MenuItem.Category.choices
+    return render(
+        request,
+        "home.html",
+        {"popular_meals": popular_meals, "categories": categories},
+    )
 
 
 
 
 def menu_view(request):
-    # Retrieve all MenuItem objects from the database
-    # Extract search parameters from the request to handle search bar queries
-    # Extract category parameters from the request to filter the meals by category
-    # Pass the dynamically filtered queryset of meals to the menu.html template
-    pass
+    """List meals, with optional search and category filters."""
+    meals = MenuItem.objects.all()
+    query = request.GET.get("q", "").strip()
+    selected_category = request.GET.get("category", "").strip()
+
+    if query:
+        meals = meals.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
+
+    valid_categories = dict(MenuItem.Category.choices)
+    if selected_category in valid_categories:
+        meals = meals.filter(category=selected_category)
+    else:
+        selected_category = ""
+
+    return render(
+        request,
+        "menu.html",
+        {
+            "meals": meals,
+            "categories": MenuItem.Category.choices,
+            "query": query,
+            "selected_category": selected_category,
+        },
+    )
 
 
 def detail_view(request, item_id):
-    # Accept the item_id parameter from the dynamic URL routing
-    # Query the database for the specific MenuItem matching that ID
-    # Pass the single MenuItem object to the detail.html template to display its full name, description, price, image, and rating
-    pass
+    """Show one menu item's details."""
+    meal = get_object_or_404(MenuItem, pk=item_id)
+    return render(request, "detail.html", {"meal": meal})
 
 
 def cart_view(request):
