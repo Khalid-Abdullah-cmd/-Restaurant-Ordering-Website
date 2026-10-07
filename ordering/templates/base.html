@@ -3,13 +3,127 @@
 <head>
     <!-- Include links to custom CSS for modern UI, spacing, colors, and animations -->
     <title>Restaurant Website</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+body {
+    text-align: center;
+    margin: 0;
+    background-color:antiquewhite;
+}
+
+#logo {
+    width: 50px;
+    border-radius: 50px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 2px 2px 5px gray;
+    padding: 15px 40px;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: antiquewhite;
+    
+}
+
+.nav-links{
+    display: flex;
+    gap: 60px;
+}
+
+.nav-links a{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+     
+   
+}
+nav div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+nav div h3 {
+    margin: 0;
+}
+
+nav a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: brown;
+    font-size: 17px;
+    
+
+}
+a:hover{
+    color: rgb(238, 74, 74);
+}
+
+footer{
+    text-align: center;
+    padding: 10px ;
+    box-shadow: 2px 2px 5px gray;
+    margin-top: 35px;
+    
+}
+
+footer div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+        
+    </style>
 </head>
 <body>
     <!-- Build the main navigation bar with the restaurant name/logo here -->
+     
+    {% load static %}
+    <nav>
+
+        <div>
+
+        <img id="logo" src="{%static 'images\logo.png'%}" alt="Restaurant logo">
+        <h3>Our Restaurant</h3>
+        </div>
+
+        <div class="nav-links">
+
+        <a href="{% url 'home' %}"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="{% url 'menue' %}"><i class="fa-solid fa-utensils"></i> Menu</a>
+        <a href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+        </div>
+
+    </nav>
     
     {% block content %}
     <!-- Individual page content will be injected here. -->
     {% endblock content %}
+
+    <footer>
+
+        <div>
+
+        <img id="logo" src="{%static 'images\logo.png'%}" alt="Restaurant logo">
+        <h3>Our Restaurant</h3>
+        </div>
+
+        <p>Delicious food made with love ❤️</p>
+
+
+        <p>© 2026 Our Restaurant. All rights reserved.</p>
+        
+    </footer>
     
     <!-- Link to custom JavaScript files for search, filtering, and cart interactivity -->
 </body>
