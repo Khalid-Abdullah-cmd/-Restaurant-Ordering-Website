@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Restaurant And Menu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html">Our Restaurant</a>
+        <a href="Cart.html">🛒 Car (<span id="cart-count">0</span>)</a>
+    </header>
+
+    <div class="container">
+        <div class="menu-grid">
+
+            <!-- الوجبة 1 -->
+            <div class="card menu-card">
+                <img src="burger.jpg" alt="برجر كلاسيك بالجبنة">
+                <div class="menu-card-body">
+                    <span class="category-badge"> burger </span>
+                    <h3>Classic cheeseburger</h3>
+                    <div class="price-tag">12.50 $</div>
+                    <a class="btn btn-primary" href="Details.html?id=1">show details</a>
+                </div>
+            </div>
+
+            <!-- الوجبة 2 -->
+            <div class="card menu-card">
+                <img src="image.png" alt="pizza ">
+                <div class="menu-card-body">
+                    <span class="category-badge">pizza</span>
+                    <h3>margherita pizza</h3>
+                    <div class="price-tag">10.00 $</div>
+                    <a class="btn btn-primary" href="Details.html?id=2">show details </a>
+                </div>
+            </div>
+
+            <!-- الوجبة 3 -->
+            <div class="card menu-card">
+                <img src="salad.jpg" alt="Caesar salad">
+                <div class="menu-card-body">
+                    <span class="category-badge">salads</span>
+                    <h3>Caesar salad </h3>
+                    <div class="price-tag">7.25 $</div>
+                    <a class="btn btn-primary" href="Details.html?id=3">show details </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/cart.js"></script>
+    <script>
+        updateCartCount();
+    </script>
+</body>
+</html>
