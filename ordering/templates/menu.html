@@ -1,155 +1,54 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<style>
-
-.category{
-
-    width: 150px;
-    padding: 15px;
-    border: 2px solid brown;
-    box-shadow: 2px 2px 5px gray;
-    text-align: center;
-    background-color:darkred;
-    color: white;
-    border-radius: 20px;
-
-}
-.category:hover{
-
-    background-color: rgb(175, 4, 4);
-}
-.categories {
-
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
- 
-input{
-    width: 100%;
-    box-sizing: border-box;
-    background-color: blanchedalmond;
-    display: block;
-    height: 30px;
-    padding: 20px;
-    text-align: center;
-    border-radius: 50px;
-    margin: 10px;
-    margin: 10px 0;
-    font-size: large;
-} 
-
-
-.meals{
-
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-.meal{
-
-    text-align: center;
-    border: 2px solid brown;
-    border-radius: 20px;
-    width: 300px;
-    height: 400px;
-    padding: 15px;
-    
-}
-.meal img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 15px;
-}
-.meal:hover{
-
-    box-shadow: 2px 2px 5px gray;
-
-}
-.meals a {
-    text-decoration: none;
-    color: inherit;
-}
-
-</style>
-
-
-
-    <!-- Include a search bar for searching meals. -->
-     
-     
-    <form method="GET">
-
-    <input 
-        type="search" 
-        name="q"
-        value="{{ query }}"
-        placeholder="Search..."
-    >
-
-    <button type="submit">Search</button>
-
-</form>
-    
-    <!-- Provide UI elements (like buttons or dropdowns) to filter meals by category -->
-
-    <section>
-
-    <h2>Explore Categories</h2>
-
-   <div class="categories">
-
-    {% for value, label in categories %}
-
-        <a href="?category={{ value }}" class="category">
-            {{ label }}
-        </a>
-
-    {% endfor %}
-
-</div>
-
+<!-- Search Section -->
+<section style="margin: 20px auto; max-width: 600px; padding: 0 20px;">
+    <form method="GET" style="display: flex; gap: 10px;">
+        <input type="search" name="q" value="{{ query }}" placeholder="Search meals..." style="margin: 0; flex-grow: 1;">
+        <button type="submit" class="btn btn-primary" style="width: auto; padding: 0 25px;">Search</button>
+    </form>
 </section>
 
-    
-    <!-- Write a Django template loop to display all available meals as modern cards -->
-
-
-<section class="section-meals">
-    <h2>All Meals</h2>
-    <div class="meals">
-    
-        {% for meal in meals %}
-
-    <a href="{% url 'detail' meal.id %}">
-
-        <div class="meal">
-
-            {% if meal.image %}
-                <img src="{{ meal.image.url }}" alt="{{ meal.name }}">
-            {% endif %}
-
-            <h3>{{ meal.name }}</h3>
-
-            <p>{{ meal.description }}</p>
-
-            <p>Price: {{ meal.price }}</p>
-
-            <p>Rating: ⭐ {{ meal.rating }}</p>
-
-        </div>
-
-    </a>
-
-{% endfor %}
-
+<!-- Category Filter Section -->
+<section class="section-categories">
+    <h2>Explore Categories</h2>
+    <div class="categories">
+        <!-- Add an option to clear filters -->
+        <a href="{% url 'menu' %}" class="category {% if not selected_category %}active{% endif %}">All</a>
+        
+        {% for value, label in categories %}
+            <a href="?category={{ value }}" class="category">{{ label }}</a>
+        {% endfor %}
     </div>
 </section>
 
-
-    <!-- Ensure each card has a link pointing to the specific meal's detail URL -->
+<!-- Menu Cards Section -->
+<section class="section-meals">
+    <h2>All Meals</h2>
+    <div class="meals">
+        {% for meal in meals %}
+            <div class="meal">
+                {% if meal.image %}
+                    <img src="{{ meal.image.url }}" alt="{{ meal.name }}">
+                {% endif %}
+                <h3>{{ meal.name }}</h3>
+                <p>{{ meal.description }}</p>
+                <p class="price">Price: ${{ meal.price }}</p>
+                <p class="rating">Rating: ⭐ {{ meal.rating }}</p>
+                
+                <!-- Explicit action buttons -->
+                <div class="meal-actions">
+                    <a href="{% url 'detail' meal.id %}" class="btn btn-secondary">View Details</a>
+                    <!-- JS attributes for cart -->
+                    <button class="btn btn-primary add-to-cart" data-id="{{ meal.id }}" data-name="{{ meal.name }}" data-price="{{ meal.price }}">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        {% empty %}
+            <p style="font-size: 1.2rem; color: #666;">No meals found matching your criteria.</p>
+        {% endfor %}
+    </div>
+</section>
 {% endblock content %}

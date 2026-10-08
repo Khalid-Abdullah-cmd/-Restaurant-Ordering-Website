@@ -1,7 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <!-- Display the specific meal's image, name, description, price, and rating -->
+<div style="max-width: 900px; margin: 50px auto; padding: 20px; display: flex; flex-wrap: wrap; gap: 40px; background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow);">
     
-    <!-- Create an "Add to Cart" button that triggers JavaScript to add the item to the cart -->
+    <!-- Left Side: Image -->
+    <div style="flex: 1; min-width: 300px;">
+        {% if meal.image %}
+            <img src="{{ meal.image.url }}" alt="{{ meal.name }}" style="width: 100%; height: auto; border-radius: 15px; object-fit: cover;">
+        {% endif %}
+    </div>
+
+    <!-- Right Side: Details -->
+    <div style="flex: 1; min-width: 300px; text-align: left; display: flex; flex-direction: column; justify-content: center;">
+        <h1 style="color: var(--primary-color); margin-top: 0; font-size: 2.5rem;">{{ meal.name }}</h1>
+        <p style="font-size: 1.1rem; color: #555; line-height: 1.6;">{{ meal.description }}</p>
+        
+        <div style="margin: 20px 0; border-top: 2px solid #eee; padding-top: 20px;">
+            <p style="font-size: 1.8rem; font-weight: bold; color: var(--primary-color); margin: 5px 0;">
+                Price: ${{ meal.price }}
+            </p>
+            <p style="font-size: 1.2rem; margin: 5px 0;">
+                Rating: ⭐ {{ meal.rating }} / 5.0
+            </p>
+        </div>
+        
+        <div style="display: flex; gap: 15px; margin-top: 20px;">
+            <button class="btn btn-primary add-to-cart" data-id="{{ meal.id }}" data-name="{{ meal.name }}" data-price="{{ meal.price }}" style="padding: 15px 30px; font-size: 1.1rem;">
+                Add to Cart
+            </button>
+            <a href="{% url 'menu' %}" class="btn btn-secondary" style="padding: 15px 30px; font-size: 1.1rem; text-align: center;">
+                Back to Menu
+            </a>
+        </div>
+    </div>
+
+</div>
 {% endblock content %}

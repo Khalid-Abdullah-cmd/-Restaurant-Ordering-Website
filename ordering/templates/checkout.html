@@ -1,122 +1,56 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Checkout | Restaurant Ordering{% endblock %}
-
 {% block content %}
-<style>
-    .checkout-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 30px;
-        max-width: 1000px;
-        margin: 40px auto;
-        padding: 20px;
-        font-family: sans-serif;
-    }
-    .order-summary, .checkout-form {
-        background: #fff;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        flex: 1;
-        min-width: 300px;
-    }
-    .order-summary h3, .checkout-form h3 {
-        margin-top: 0;
-        border-bottom: 2px solid #eee;
-        padding-bottom: 10px;
-        color: #333;
-    }
-    .cart-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid #f9f9f9;
-    }
-    .cart-total {
-        font-size: 1.2rem;
-        font-weight: bold;
-        text-align: right;
-        margin-top: 15px;
-        color: #e74c3c;
-    }
-    .form-group {
-        margin-bottom: 15px;
-    }
-    .form-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-        color: #555;
-    }
-    .form-group input, .form-group textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 1rem;
-    }
-    .btn-submit {
-        background-color: #27ae60;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        font-size: 1rem;
-        border-radius: 5px;
-        cursor: pointer;
-        width: 100%;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-    .btn-submit:hover {
-        background-color: #219150;
-    }
-</style>
-
-<div class="checkout-container">
+<div class="checkout-container" style="display: flex; flex-wrap: wrap; gap: 30px; max-width: 1000px; margin: 40px auto; padding: 20px;">
+    
     <!-- Left Side: Order Summary -->
-    <div class="order-summary">
-        <h3>1. Order Summary</h3>
-        <div class="cart-items">
-            <!-- This loops through the cart dictionary passed from views.py -->
-            {% for item_id, item in request.session.cart.items %}
-            <div class="cart-item">
-                <span>{{ item.name }} <strong>(x{{ item.quantity }})</strong></span>
-                <span>${{ item.price }}</span>
-            </div>
-            {% empty %}
-            <p>Your cart is empty.</p>
-            {% endfor %}
-        </div>
-        <div class="cart-total">
-            Total: ${{ cart_total }}
+    <div class="order-summary" style="flex: 1; min-width: 300px; background: #fff; padding: 25px; border-radius: 10px; box-shadow: var(--shadow);">
+        <h3 style="border-bottom: 2px solid #eee; padding-bottom: 10px;">1. Order Summary</h3>
+        
+        <!-- JavaScript will inject the final uneditable summary here -->
+        <div id="checkout-summary-container"></div>
+        
+        <div class="cart-total" style="font-size: 1.2rem; font-weight: bold; text-align: right; margin-top: 15px; color: var(--primary-color);">
+            Total: $<span id="checkout-total-price">0.00</span>
         </div>
     </div>
 
     <!-- Right Side: Checkout Form -->
-    <div class="checkout-form">
-        <h3>2. Delivery Details</h3>
-        <form action="{% url 'process_checkout' %}" method="POST">
+    <div class="checkout-form" style="flex: 1; min-width: 300px; background: #fff; padding: 25px; border-radius: 10px; box-shadow: var(--shadow);">
+        <h3 style="border-bottom: 2px solid #eee; padding-bottom: 10px;">2. Delivery Details</h3>
+        
+        <!-- Action must point to 'checkout', matching urls.py -->
+        <!-- ID added so JavaScript can intercept the submission -->
+        <form id="checkout-form" action="{% url 'checkout' %}" method="POST">
             {% csrf_token %}
             
-            <div class="form-group">
-                <label for="name">Full Name (Required)</label>
-                <input type="text" id="name" name="name" required placeholder="e.g. Jana Farouk">
+            <!-- HIDDEN INPUT: JavaScript will place the JSON cart data here right before submission -->
+            <input type="hidden" name="cart_data" id="cart_data">
+            
+            <!-- Field names must match your Order model fields (customer_name, phone, address) -->
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="customer_name" style="font-weight: bold; display: block; margin-bottom: 5px;">Full Name (Required)</label>
+                <input type="text" id="customer_name" name="customer_name" required placeholder="e.g. Jana Farouk">
             </div>
 
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="phone" style="font-weight: bold; display: block; margin-bottom: 5px;">Phone Number (Required)</label>
                 <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
             </div>
 
-            <div class="form-group">
-                <label for="address">Address or Table Number</label>
-                <textarea id="address" name="address" rows="3" required placeholder="Enter delivery address..."></textarea>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="address" style="font-weight: bold; display: block; margin-bottom: 5px;">Address or Table Number (Required)</label>
+                <textarea id="address" name="address" rows="3" required placeholder="Enter delivery address..." style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
             </div>
 
-            <button type="submit" class="btn-submit">Confirm Order & Pay</button>
+            <!-- Display backend validation errors if any exist -->
+            {% if cart_error %}
+                <p style="color: red; font-weight: bold;">{{ cart_error }}</p>
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Confirm Order & Pay</button>
         </form>
     </div>
 </div>
-{% endblock %}
+{% endblock content %}

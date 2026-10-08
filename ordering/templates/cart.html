@@ -1,11 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <!-- Provide empty HTML containers or table structures to display added meals -->
+<section class="cart-section" style="max-width: 800px; margin: 40px auto; padding: 20px;">
+    <h2>Your Cart</h2>
     
-    <!-- Include interactive JavaScript buttons to increase/decrease quantity and remove meals-->
-    
-    <!-- Provide an HTML element to display the automatic total calculation handled by JavaScript-->
-    
-    <!-- Add a link or button to proceed to the checkout page-->
+    <!-- JavaScript will inject the cart items into this div -->
+    <div id="cart-items-container">
+        <!-- Example of what JS will inject:
+        <div class="cart-item">
+            <span>Burger (x2)</span>
+            <button class="increase">+</button>
+            <button class="decrease">-</button>
+            <button class="remove">Remove</button>
+        </div>
+        -->
+    </div>
+
+    <!-- JavaScript will update this total automatically -->
+    <div class="cart-total-display" style="text-align: right; margin-top: 20px;">
+        <h3>Total: $<span id="cart-total-price">0.00</span></h3>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+        <a href="{% url 'menu' %}" class="btn btn-secondary">Continue Shopping</a>
+        <!-- This button will be disabled by JS if the cart is empty -->
+        <a href="{% url 'checkout' %}" id="checkout-btn" class="btn btn-primary">Proceed to Checkout</a>
+    </div>
+</section>
 {% endblock content %}

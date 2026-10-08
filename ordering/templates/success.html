@@ -4,68 +4,20 @@
 {% block title %}Order Success | Restaurant Ordering{% endblock %}
 
 {% block content %}
-<style>
-    .success-container {
-        max-width: 600px;
-        margin: 80px auto;
-        background: #fff;
-        padding: 40px;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        text-align: center;
-        font-family: sans-serif;
-    }
-    .success-icon {
-        font-size: 60px;
-        color: #27ae60;
-        margin-bottom: 20px;
-    }
-    .success-container h1 {
-        color: #333;
-        margin-bottom: 10px;
-    }
-    .success-container p {
-        color: #666;
-        font-size: 1.1rem;
-        margin-bottom: 25px;
-    }
-    .order-id {
-        background: #f4f4f4;
-        padding: 10px;
-        border-radius: 5px;
-        font-weight: bold;
-        color: #333;
-        display: inline-block;
-        margin-bottom: 30px;
-    }
-    .btn-home {
-        background-color: #3498db;
-        color: white;
-        text-decoration: none;
-        padding: 12px 25px;
-        border-radius: 5px;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-    .btn-home:hover {
-        background-color: #2980b9;
-    }
-</style>
-
-<div class="success-container">
-    <div class="success-icon">✔️</div>
+<div style="max-width: 600px; margin: 80px auto; background: var(--card-bg); padding: 40px; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
+    <div style="font-size: 60px; color: #27ae60; margin-bottom: 20px;">✔️</div>
     
     <!-- Dynamic name matching the rubric perfectly -->
-    <h1>Thank you, {{ customer_name }}!</h1>
-    <p>Your order has been placed successfully.</p>
+    <h1 style="color: var(--primary-color); margin-bottom: 10px;">Thank you, {{ customer_name }}!</h1>
+    <p style="color: #666; font-size: 1.1rem; margin-bottom: 25px;">Your order has been placed successfully.</p>
     
     {% if order_id %}
-    <div class="order-id">
+    <div style="background: #f4f4f4; padding: 10px; border-radius: 5px; font-weight: bold; color: #333; display: inline-block; margin-bottom: 30px;">
         Order Reference: #{{ order_id }}
     </div>
     {% endif %}
     
     <br>
-    <a href="{% url 'home' %}" class="btn-home">Return to Home Page</a>
+    <a href="{% url 'home' %}" class="btn btn-primary">Return to Home Page</a>
 </div>
 {% endblock %}

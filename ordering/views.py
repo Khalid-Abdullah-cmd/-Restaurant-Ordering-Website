@@ -77,7 +77,7 @@ def menu_view(request):
 
     return render(
         request,
-        "menue.html",
+        "menu.html",
         {
             "meals": meals,
             "categories": MenuItem.Category.choices,
@@ -134,17 +134,18 @@ def checkout_view(request):
     
     return redirect("success")
 
-
 def success_view(request):
-    
     customer_name = request.session.get("customer_name")
     order_id = request.session.get("order_id")
 
-   
     if not customer_name:
         return redirect("menu")
 
-   
+    if "customer_name" in request.session:
+        del request.session["customer_name"]
+    if "order_id" in request.session:
+        del request.session["order_id"]
+
     return render(request, "success.html", {
         "customer_name": customer_name,
         "order_id": order_id,
