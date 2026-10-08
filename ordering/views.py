@@ -77,7 +77,7 @@ def menu_view(request):
 
     return render(
         request,
-        "menu.html",
+        "menue.html",
         {
             "meals": meals,
             "categories": MenuItem.Category.choices,
